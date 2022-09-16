@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}
+首页title
+{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block body %}
+    <div class="row mt-5">
+      <div class="col">
+      </div>
+      <div class="col-8">
+        <div class="list-group">
+            {% for question in questions %}
+            <a href="{{url_for('qa.question_detail', question_id=question.id)}}" class="list-group-item list-group-item-action">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{question.title}}</h5>
+                <small>{{question.create_time}}</small>
+              </div>
+              <p class="mb-1">{{question.content}}</p>
+              <small>作者：{{question.author.username}}</small>
+            </a>
+            {% endfor %}
+          </div>
+      </div>
+      <div class="col">
+      </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,42 @@
+version: '3'
+services:
+  web:
+    build: 
+      context: ./python
+    ports:
+    - "5002:5000"
+    volumes:
+    - ./app:/code
+    networks:
+      pynetwork:
+        ipv4_address: 172.25.0.4
+    
+  redis:
+    image: "redis:alpine"
+    networks:
+      pynetwork:
+        ipv4_address: 172.25.0.3
+    
+  mysql8:
+    build: 
+      context: ./mysql8
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    environment:
+      - MYSQL_ROOT_PASSWORD=daozhu
+      - TZ=Asia/Shanghai
+    ports:
+      - "3306:3306"
+    networks:
+      pynetwork:
+        ipv4_address: 172.25.0.5
+        
+networks:
+  pynetwork:
+   ipam:
+     config:
+     - subnet: 172.25.0.0/24
+       gateway: 172.25.0.1

@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}
+问答详情
+{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block body %}
+    <div class="row mt-5">
+      <div class="col">
+      </div>
+      <div class="col-8">
+        <h3 style="text-align:center">{{question.title}}</h3>
+        <div>
+            <p>作者：{{question.author.username}}</p>
+            <p class="ml-auto">时间：{{question.create_time}}</p>
+        </div>
+        <hr>
+        <p class="text-justify">
+            {{question.content}}
+        </p>
+        </div>
+      <div class="col">
+      </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col">
+        </div>
+        <div class="col-8">
+            <form action="{{url_for("qa.question_answer", question_id=question.id)}}" method="post">
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">评论({{question.answers|length}})</label>
+                    <textarea class="form-control" name="content" id="exampleFormControlTextarea1" rows="3"></textarea>
+                </div>
+                {% for message in get_flashed_messages() %}
+                <div class="form-group">
+                    <div class="text-danger">{{message}}</div>
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary float-right">提交</button>
+              </form>
+          </div>
+        <div class="col">
+        </div>
+      </div>
+      <div class="row mt-5">
+        <div class="col">
+        </div>
+        <div class="col-8">
+            <div class="list-group">
+                {% for answer in question.answers %}
+                <a href="#" class="list-group-item list-group-item-action">
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1"></h5>
+                    <small>{{answer.create_time}}</small>
+                  </div>
+                  <p class="mb-1">{{answer.content}}</p>
+                  <small>{{answer.author.username}}</small>
+                </a>
+                {% endfor %}
+              </div>
+          </div>
+        <div class="col">
+        </div>
+      </div>
+{% endblock %}
